@@ -1,19 +1,26 @@
 <script setup>
-import axios from 'axios';
+import { client } from '../modules/publicClient'
 
 function signup() {
-  var password = document.getElementById("password").value
-  var password_confirmation = document.getElementById("passwordConfirmation").value
-  console.log(password)
-  if (password != password_confirmation) {
+  if (!isFormValid()) {
     return
   }
-  console.log('before request')
-  sendReq()
+  sendRequest()
 }
 
-function sendReq() {
-  axios.post('http://localhost:3000/users', {
+function isFormValid() {
+  return !(
+    document.getElementById("username").value == "" ||
+    document.getElementById("email").value == "" ||
+    document.getElementById("password").value == "" ||
+    document.getElementById("passwordConfirmation").value == "" ||
+    document.getElementById("password").value != document.getElementById("passwordConfirmation").value
+  )
+}
+
+function sendRequest() {
+  console.log('sending signup request')
+  client.post("/users", {
   user: {
     "username": document.getElementById("username").value,
     "email": document.getElementById("email").value,
@@ -22,10 +29,8 @@ function sendReq() {
 })
 .then((response) => {
   console.log(response);
-  localStorage.setItem('access', response.data.access)
-  localStorage.setItem('refresh', response.data.refresh)
 }, (error) => {
-  console.log(error);
+  //console.log(error);
 });
 }
 
