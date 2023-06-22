@@ -1,6 +1,13 @@
 <script setup>
-function a() {
-    console.log('awdadaw')
+import { client } from '../modules/privateClient'
+import { userStore } from '../stores/user'
+
+const store = userStore()
+
+function logout() {
+  client.post("/logout")
+  store.username = 'Guest'
+  localStorage.removeItem('username');
 }
 </script>
 
@@ -23,7 +30,7 @@ function a() {
         Login
       </a>
 
-      <a class="navbar-item" @click="a">
+      <a class="navbar-item" @click="logout">
         Logout
       </a>
 
@@ -33,7 +40,7 @@ function a() {
     </div>
 
     <div class="navbar-end">
-        Guest
+      <p>User: {{ store.username }}</p>
     </div>
   </div>
 </nav>
