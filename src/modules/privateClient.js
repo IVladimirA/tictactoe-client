@@ -14,7 +14,6 @@ client.interceptors.request.use(
 
 client.interceptors.response.use(
   (config) => {
-    console.log('config')
     return config
   },
   async (error) => {

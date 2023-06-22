@@ -44,7 +44,9 @@ function logout() {
     </div>
 
     <div class="navbar-end">
-      <p>User: {{ store.username }}, Wins: {{ store.wins }}, Loses: {{ store.loses }}</p>
+      <div class="navbar-item">
+        <strong>User: {{ store.username }}, Wins: {{ store.wins }}, Loses: {{ store.loses }}</strong>
+      </div>
     </div>
   </div>
 </nav>
