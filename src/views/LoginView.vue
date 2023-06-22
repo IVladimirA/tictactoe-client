@@ -2,6 +2,7 @@
 import { client } from '../modules/publicClient'
 import { ref } from 'vue'
 import { userStore } from '../stores/user'
+import router from '../router/index'
 
 const store = userStore()
 
@@ -32,7 +33,14 @@ function sendRequest() {
   localStorage.setItem("access", response.data.access)
   localStorage.setItem("refresh", response.data.refresh)
   localStorage.setItem("username", response.data.username)
+  localStorage.setItem("user_id", response.data.user_id)
+  localStorage.setItem("wins", response.data.wins)
+  localStorage.setItem("loses", response.data.loses)
   store.username = response.data.username
+  store.user_id = response.data.user_id
+  store.wins = response.data.wins
+  store.loses = response.data.loses
+  router.push({ path: '/' })
 }, (error) => {
   console.log(error);
 });

@@ -7,7 +7,11 @@ const store = userStore()
 function logout() {
   client.post("/logout")
   store.username = 'Guest'
+  store.user_id = '---'
   localStorage.removeItem('username');
+  localStorage.removeItem('user_id');
+  localStorage.removeItem('wins');
+  localStorage.removeItem('loses');
 }
 </script>
 
@@ -40,7 +44,7 @@ function logout() {
     </div>
 
     <div class="navbar-end">
-      <p>User: {{ store.username }}</p>
+      <p>User: {{ store.username }}, Wins: {{ store.wins }}, Loses: {{ store.loses }}</p>
     </div>
   </div>
 </nav>
