@@ -1,8 +1,5 @@
 import axios from "axios";
 import router from '../router'
-import { userStore } from '../stores/user'
-
-const store = userStore()
 
 export const client = axios.create({
   baseURL: import.meta.env.VITE_SERVER_URL
@@ -17,7 +14,6 @@ client.interceptors.request.use(
 
 client.interceptors.response.use(
   (config) => {
-    console.log('config')
     return config
   },
   async (error) => {
@@ -35,15 +31,19 @@ client.interceptors.response.use(
         localStorage.setItem("refresh", resp.data.refresh);
         return client.request(originalRequest);
       } catch (error) {
-        console.log("authentication error");
-        store.username = 'Guest'
         localStorage.removeItem('username');
+        localStorage.removeItem('user_id');
+        localStorage.removeItem('wins');
+        localStorage.removeItem('loses');
         router.push({ path: 'login' })
       }
     }
-    console.log("authentication error");
-    store.username = 'Guest'
+    localStorage.removeItem('access');
+    localStorage.removeItem('refresh');
     localStorage.removeItem('username');
+    localStorage.removeItem('user_id');
+    localStorage.removeItem('wins');
+    localStorage.removeItem('loses');
     router.push({ path: 'login' })
   }
 );

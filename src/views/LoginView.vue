@@ -2,6 +2,7 @@
 import { client } from '../modules/publicClient'
 import { ref } from 'vue'
 import { userStore } from '../stores/user'
+import router from '../router/index'
 
 const store = userStore()
 
@@ -20,7 +21,6 @@ function isFormValid() {
 }
 
 function sendRequest() {
-  console.log('sending login request')
   client.post("/auth", {
   user: {
     "email": email.value,
@@ -28,11 +28,17 @@ function sendRequest() {
   }
 })
 .then((response) => {
-  console.log(response);
   localStorage.setItem("access", response.data.access)
   localStorage.setItem("refresh", response.data.refresh)
   localStorage.setItem("username", response.data.username)
+  localStorage.setItem("user_id", response.data.user_id)
+  localStorage.setItem("wins", response.data.wins)
+  localStorage.setItem("loses", response.data.loses)
   store.username = response.data.username
+  store.user_id = response.data.user_id
+  store.wins = response.data.wins
+  store.loses = response.data.loses
+  router.push({ path: '/' })
 }, (error) => {
   console.log(error);
 });
@@ -49,7 +55,7 @@ function sendRequest() {
     <div class="field">
       <label class="label">Password</label>
       <div class="control">
-        <input class="input" type="text" placeholder="StrOngPasswOrd123" v-model="password">
+        <input class="input" type="password" placeholder="StrOngPasswOrd123" v-model="password">
       </div>
     </div>
     
